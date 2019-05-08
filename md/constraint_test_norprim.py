@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import re
 
 #number of abinit iterations
-iterations=1500
+iterations=int(sys.argv[1])
 
 #name of system
-name="AlAs"
+name=sys.argv[2]
 
 ######################################
 
@@ -72,10 +72,15 @@ for i in range(iterations):
     # rp2 = np.array([rprim_init[1],rprim_init[4],rprim_init[7]],float)
     # rp3 = np.array([rprim_init[2],rprim_init[5],rprim_init[8]],float)
 
-    # #modulus of rprim vectors
-    # rp1_mod[i] = np.linalg.norm(rp1)
-    # rp2_mod[i] = np.linalg.norm(rp2)
-    # rp3_mod[i] = np.linalg.norm(rp3)
+    rp1 = np.array([1,0,0])
+    rp2 = np.array([0,1,0])
+    rp3 = np.array([0,0,1])
+
+
+    #modulus of rprim vectors
+    rp1_mod[i] = np.linalg.norm(rp1)
+    rp2_mod[i] = np.linalg.norm(rp2)
+    rp3_mod[i] = np.linalg.norm(rp3)
 
     
     #cell angle constraint

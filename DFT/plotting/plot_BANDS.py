@@ -85,7 +85,7 @@ except :
 KP1 = re.findall('reciprocal[\s\S]*',KP)
 tick_labels_raw = np.array(re.findall('!\s(.*)',KP1[0]))
 nkpoint = int(lines[1].split()[0])
-
+print(tick_labels_raw)
 high_symm_kpoints = np.array([x.split() for x in re.findall("(.*)!\s.*",KP)[1:]]).astype(np.float)
 high_symm_distances = []
 for ix in range(1,len(high_symm_kpoints),2):
@@ -139,21 +139,20 @@ else :
         plt.axvline(x = x,ymin=ymin,ymax=ymax,linewidth=2,color='black')
     plt.axvline(x = tick_pos[0],ymin=ymin,ymax=ymax,linewidth=2,color='black')
     
-tick_labels = np.empty(len(tick_pos),dtype='|S16')
+tick_labels = np.empty(len(tick_pos),dtype="S16")
 for ilabel in range(0,len(tick_labels_raw),2):
     if ilabel == 0 :
         continue
     if tick_labels_raw[ilabel-1] == tick_labels_raw[ilabel]:
-        tick_labels[ilabel/2] = tick_labels_raw[ilabel]
+        tick_labels[int(ilabel/2)] = tick_labels_raw[ilabel]
     else :
-        tick_labels[ilabel/2] = tick_labels_raw[ilabel-1] +' '+ tick_labels_raw[ilabel]
+        tick_labels[int(ilabel/2)] = tick_labels_raw[ilabel-1] +' '+ tick_labels_raw[ilabel]
 tick_labels[0] = tick_labels_raw[0]
 tick_labels[-1] = tick_labels_raw[-1]
-print(tick_labels)
 
 
-for ilabel in range(len(tick_labels)):
-   tick_labels[ilabel] =  '$'+tick_labels[ilabel]+'$'
+
+tick_labels = ['${}$'.format(label.decode("utf-8") ) for label in tick_labels]
 plt.xticks(tick_pos,tick_labels, fontsize=24,fontweight='bold')
 plt.yticks(fontsize=20)
 if args.xlim != None :
