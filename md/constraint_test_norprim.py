@@ -49,12 +49,22 @@ for i in range(iterations):
     pressure_init = re.findall('pressure\(hartree/Bohr\^3\)([0-9E+-.\s]*)bond\sconstraints',readmd)[0].split()[1:][::2]
     
     #atom constraint
-    xcart[i]=xcart_init[0]
+    xcart[i]=xcart_init[0] #atom 1
     
     #bond constraint
     r1=np.array(xcart_init[0:3],float)
     r2=np.array(xcart_init[3:6],float)
-    r12_mag[i]=np.linalg.norm(r2-r1)
+    r3=np.array(xcart_init[6:9],float)
+    r4=np.array(xcart_init[9:12],float)
+    r5=np.array(xcart_init[12:15],float)
+    r6=np.array(xcart_init[15:18],float)
+    r7=np.array(xcart_init[18:21],float)
+    r8=np.array(xcart_init[21:24],float)
+    r9=np.array(xcart_init[24:27],float)
+    r10=np.array(xcart_init[27:30],float)
+    r11=np.array(xcart_init[30:33],float)
+
+    r19_mag[i]=np.linalg.norm(r9-r1) #9th atom and 1st atom bond
     
     #atom angle contraint
     r3=np.array(xcart_init[6:9],float)
@@ -88,7 +98,7 @@ for i in range(iterations):
     #cell angle constraint
     a =float(acell_init[0])*rp1
     b =float(acell_init[1])*rp2
-    c =float(acell_init[2])*rp3
+    c =float(acell_init[2])*rp3.
     cos_beta[i] = (np.dot(a,b))/((np.linalg.norm(a))*(np.linalg.norm(b)))
     
     #total energy
@@ -132,7 +142,7 @@ plt.figure(1)
 
 plt.subplot(421)
 plt.plot(xcart)
-plt.title('Atomic position')
+plt.title('Atomic position of Fe1 atom')
 plt.xlabel('Iteration')
 plt.ylabel('Bohr')
 
