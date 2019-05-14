@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 import numpy as np
 import matplotlib.pyplot as plt
 import re
+import sys
 
 #number of abinit iterations
 iterations=int(sys.argv[1])
