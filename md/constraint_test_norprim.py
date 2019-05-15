@@ -40,10 +40,16 @@ for i in range(iterations):
     fileopmdout = open("./"+name+str(i)+"/"+name+str(i)+".mdout","r")
     readmd = fileopmdout.read()
     fileopmdout.close()
+
+    #open .in file to read rprim
+    filein = open("./"+name+str(i)+"/"+name+str(i)+".in","r")
+    readin = filein.read()
+    filein.close()
+
     
     #constraint values
     acell_init = re.findall('acell([0-9E+.\s]*)Bohr',read)[0].split()
-    #rprim_init = re.findall('rprim([0-9E+-.\s]*)shiftk',read)[0].split()
+    rprim_init = re.findall('rprim([0-9E+-.\s]*)',readin)[0].split()
     xcart_init = re.findall('xcart([0-9E+-.\s]*)xred',read)[0].split()
     tot_energy = re.findall('etotal([0-9E+-.\s]*)fcart',read)[0].split()
     volume_init = re.findall('volume\(Bohr\^3\)([0-9E+-.\s]*)md_step',readmd)[0].split()[1:][::2]
