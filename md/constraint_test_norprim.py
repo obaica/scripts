@@ -14,12 +14,13 @@ name=sys.argv[2]
 
 #creating zero matrices
 xcart = np.zeros(iterations)
-r12_mag = np.zeros(iterations)
+r19_mag = np.zeros(iterations)
 cos_alpha = np.zeros(iterations)
 acell1=np.zeros(iterations)
 acell2=np.zeros(iterations)
 acell3=np.zeros(iterations)
 cos_beta=np.zeros(iterations)
+cos_gamma = np.zeros(iterations)
 etot=np.zeros(iterations)
 volume=np.zeros(iterations)
 pressure=np.zeros(iterations)
@@ -60,19 +61,24 @@ for i in range(iterations):
     r6=np.array(xcart_init[15:18],float)
     r7=np.array(xcart_init[18:21],float)
     r8=np.array(xcart_init[21:24],float)
-    r9=np.array(xcart_init[24:27],float)
+    r9=np.array(xcart_init[24:27],float)  #O1
     r10=np.array(xcart_init[27:30],float)
-    r11=np.array(xcart_init[30:33],float)
+    r11=np.array(xcart_init[30:33],float) #O3
+    r12=np.array(xcart_init[33:36],float) 
+    r13=np.array(xcart_init[36:39],float) 
+    r14=np.array(xcart_init[39:42],float) 
+    r15=np.array(xcart_init[42:45],float)
+    r16=np.array(xcart_init[45:48],float) 
+    r17=np.array(xcart_init[48:51],float) #O9
+   
+
 
     r19_mag[i]=np.linalg.norm(r9-r1) #9th atom and 1st atom bond
     
-    #atom angle contraint
-    r3=np.array(xcart_init[6:9],float)
-    r4=np.array(xcart_init[9:12],float)
-    r5=np.array(xcart_init[12:15],float)
-    r34=r4-r3
-    r35=r5-r3
-    cos_alpha[i] = (np.dot(r34,r35))/((np.linalg.norm(r34))*(np.linalg.norm(r35)))
+    #atom angle contraint O1-Fe-O3
+    r19=r9-r1
+    r111=r11-r1
+    cos_alpha[i] = (np.dot(r19,r111))/((np.linalg.norm(r19))*(np.linalg.norm(r111)))
     
     #cell parameter constraint
     acell1[i]=acell_init[0]
@@ -99,7 +105,14 @@ for i in range(iterations):
     a =float(acell_init[0])*rp1
     b =float(acell_init[1])*rp2
     c =float(acell_init[2])*rp3.
-    cos_beta[i] = (np.dot(a,b))/((np.linalg.norm(a))*(np.linalg.norm(b)))
+    cos_beta[i] = (np.dot(a,b))/((np.linalg.norm(a))*(np.linalg.norm(b))) #angle between a and b vectors
+
+
+
+    #Octahedral angle is the angle between the vector of O9 and Fe1 and the b axis
+    r_O9Fe1 = r17 - r1
+    cos_gamma[i] = (np.dot(r_O9Fe1,b))/((np.linalg.norm(r_O9Fe1))*(np.linalg.norm(b))) #angle between O9Fe1 and b vectors
+
     
     #total energy
     etot[i] = tot_energy[0]
@@ -140,36 +153,47 @@ for i in range(iterations):
 ####PLOTTING########
 plt.figure(1)
 
+# plt.subplot(421)
+# plt.plot(xcart)
+# plt.title('Atomic position of Fe1 atom')
+# plt.xlabel('Iteration')
+# plt.ylabel('Bohr')
+
 plt.subplot(421)
-plt.plot(xcart)
-plt.title('Atomic position of Fe1 atom')
+plt.plot(cos_gamma)
+plt.title('Octahedral angle of Fe1-O9 with the b axis')
 plt.xlabel('Iteration')
-plt.ylabel('Bohr')
+plt.ylabel('cosine')
+
 
 
 plt.subplot(422)
-plt.plot(r12_mag)
+plt.plot(r19_mag)
 ax = plt.gca()
 ax.ticklabel_format(useOffset=False)
-plt.title('Bond Length')
+plt.title('Bond Length of Fe1 and O1')
 plt.xlabel('Iteration')
 plt.ylabel('Bohr')
 
 plt.subplot(423)
 plt.plot(cos_alpha)
-plt.title('Atom angle')
+plt.title('O1-Fe1-O3 Bond Angle')
 plt.xlabel('Iteration')
 plt.ylabel('cosine')
 
 plt.subplot(424)
 plt.plot(acell1)
-plt.title('Cell Parameter')
+plt.plot( acell1, color='skyblue', label="a")
+plt.plot( acell2, color='red', label="b")
+plt.plot( acell3, color='green', label="c")
+plt.legend()
+plt.title('Cell Parameters')
 plt.xlabel('Iteration')
 plt.ylabel('Bohr')
 
 plt.subplot(425)
 plt.plot(cos_beta)
-plt.title('Cell vector angle')
+plt.title('Angle between a and b')
 plt.xlabel('Iteration')
 plt.ylabel('cosine')
 
