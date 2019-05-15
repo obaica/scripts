@@ -92,13 +92,13 @@ for i in range(iterations):
     acell3[i]=acell_init[2]
 
     #rprim vectors
-    # rp1 = np.array([rprim_init[0],rprim_init[3],rprim_init[6]],float)
-    # rp2 = np.array([rprim_init[1],rprim_init[4],rprim_init[7]],float)
-    # rp3 = np.array([rprim_init[2],rprim_init[5],rprim_init[8]],float)
+    rp1 = np.array([rprim_init[0],rprim_init[3],rprim_init[6]],float)
+    rp2 = np.array([rprim_init[1],rprim_init[4],rprim_init[7]],float)
+    rp3 = np.array([rprim_init[2],rprim_init[5],rprim_init[8]],float)
 
-    rp1 = np.array([1,0,0])
-    rp2 = np.array([0,1,0])
-    rp3 = np.array([0,0,1])
+    #rp1 = np.array([1,0,0])
+    #rp2 = np.array([0,1,0])
+    #rp3 = np.array([0,0,1])
 
 
     #modulus of rprim vectors
