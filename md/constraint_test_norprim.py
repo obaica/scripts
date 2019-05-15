@@ -102,9 +102,9 @@ for i in range(iterations):
 
     
     #cell angle constraint
-    a =float(acell_init[0])*rp1
-    b =float(acell_init[1])*rp2
-    c =float(acell_init[2])*rp3
+    a =float(acell1[i])*rp1
+    b =float(acell2[i])*rp2
+    c =float(acell3[i])*rp3
     cos_beta[i] = (np.dot(a,b))/((np.linalg.norm(a))*(np.linalg.norm(b))) #angle between a and b vectors
 
 
