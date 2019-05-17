@@ -2,9 +2,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import re
+import sys
 
 #number of abinit iterations
-iterations=100
+iterations=int(sys.argv[1])
 
 with open('pressure_volume.mdout', 'r') as f:
     f.readline()  
