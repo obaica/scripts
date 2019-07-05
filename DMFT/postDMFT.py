@@ -9,7 +9,7 @@ from shutil import copyfile
 
 #######inputs######################################################################
 #dmft_bin
-path_bin="/users/ukh0001/projects/DMFTwDFT/bin/"
+path_bin=os.environ['DMFT_ROOT']
 
 #mpirun
 if os.path.exists("para_com.dat"):
