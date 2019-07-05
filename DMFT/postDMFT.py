@@ -71,7 +71,8 @@ for i in range(headerline):
   line=fi.readline()
   m=re.search('#(.*)',line)
   exec(m.group(1).strip())
-s_oo_Vdc=array(s_oo)-array(Vdc)
+#s_oo_Vdc=array(s_oo)-array(Vdc)
+s_oo_Vdc=array((np.array(s_oo)).astype(np.float))-array((np.array(Vdc)).astype(np.float))
 
 ommesh=linspace(emin,emax,rom)
 Sig_tot=zeros((len(Sig),rom),dtype=complex)
