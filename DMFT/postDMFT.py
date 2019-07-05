@@ -39,26 +39,26 @@ else:
 	os.makedirs("dos")
 
 #copying the last few self-energies from the DMFT run in the directory above	
-os.popen("cp -r sig.inp.1.* ./dos/ && cd dos")
+os.popen("cp -r sig.inp.1.* ./dos/")
 
 #averaging sef energies
 print('Averaging self-energies...')
-cmd = "sigaver.py sig.inp.*"
+cmd = "cd dos && sigaver.py sig.inp.*"
 out, err = subprocess.Popen(cmd, shell=True).communicate()
 print('Complete.\n')
 
 #copy maxent_params.dat from source
 src=path_bin+ os.sep+"maxent_params.dat"
-copyfile(src,"./maxent_params.dat")
+copyfile(src,"./dos/maxent_params.dat")
 
 #Analytic continuation
 print('Analytic Continuation...\n')
-cmd = "maxent_run.py sig.inpx"
+cmd = "cd dos && maxent_run.py sig.inpx"
 subprocess.Popen(cmd, shell=True).communicate()
 print('Complete.\n')
 
 #copying files from DMFT directory
-cmd = "Copy_input.py ../ -dos"
+cmd = "cd dos && Copy_input.py ../ -dos"
 subprocess.Popen(cmd, shell=True).communicate()
 
 #interpolating points on real axis
@@ -92,5 +92,5 @@ header5='# Vdc= '+str(Vdc)
 Fileio.Print_complex_multilines(Sig_tot,ommesh,'sig.inp_real',[header1,header2,header3,header4,header5])
 
 #running dmft_dos.x
-cmd = para_com + "dmft_dos.x"
+cmd ="cd dos && "+ para_com + "dmft_dos.x"
 subprocess.Popen(cmd, shell=True).communicate()
