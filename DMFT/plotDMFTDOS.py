@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
+from __future__ import absolute_import, division, print_function, unicode_literals
 import matplotlib.pyplot as plt
-
 
 with open('G_loc.out', 'r') as f:
     lines = f.readlines()

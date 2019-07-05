@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 import sys, subprocess, os
 import numpy as np
 from scipy import *
@@ -9,7 +9,7 @@ from shutil import copyfile
 
 #######inputs######################################################################
 #dmft_bin
-path_bin="/home/uthpala/Documents/Research/projects/DMFTwDFT/bin/"
+path_bin="/users/ukh0001/projects/DMFTwDFT/bin/"
 
 #mpirun
 if os.path.exists("para_com.dat"):
@@ -39,17 +39,17 @@ else:
 	os.makedirs("dos")
 
 #copying the last few self-energies from the DMFT run in the directory above	
-os.popen("cp -r ../sig.inp.0.* ./")
+os.popen("cp -r sig.inp.1.* ./dos/ && cd dos")
 
 #averaging sef energies
 print('Averaging self-energies...')
-cmd = "sigaver.py"
+cmd = "sigaver.py sig.inp.*"
 out, err = subprocess.Popen(cmd, shell=True).communicate()
 print('Complete.\n')
 
 #copy maxent_params.dat from source
 src=path_bin+ os.sep+"maxent_params.dat"
-copyfile(src,"./")
+copyfile(src,"./maxent_params.dat")
 
 #Analytic continuation
 print('Analytic Continuation...\n')
@@ -58,7 +58,7 @@ subprocess.Popen(cmd, shell=True).communicate()
 print('Complete.\n')
 
 #copying files from DMFT directory
-cmd = "Copy_input.py -dos ../"
+cmd = "Copy_input.py ../ -dos"
 subprocess.Popen(cmd, shell=True).communicate()
 
 #interpolating points on real axis

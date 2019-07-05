@@ -7,9 +7,6 @@ import VASP
 import Struct
 
 ###############################inputs######################################################################
-#dmft_bin
-path_bin="/home/uthpala/Documents/Research/projects/DMFTwDFT/bin/"
-
 #number of bands for DFT calculation
 NUM_BANDS = 72
 
