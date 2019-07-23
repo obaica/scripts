@@ -94,6 +94,7 @@ for i in range(len(s_oo_Vdc)):
 header4='# s_oo= '+str(s_oo)
 header5='# Vdc= '+str(Vdc)
 Fileio.Print_complex_multilines(Sig_tot,ommesh,'./dos/sig.inp_real',[header1,header2,header3,header4,header5])
+print('Complete.\n')
 
 #running dmft_dos.x
 cmd ="cd dos && "+ para_com + "dmft_dos.x"
