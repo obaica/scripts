@@ -76,7 +76,8 @@ for i in range(headerline):
   line=fi.readline()
   m=re.search('#(.*)',line)
   exec(m.group(1).strip())
-s_oo_Vdc=array(s_oo)-array(Vdc)
+#s_oo_Vdc=array(s_oo)-array(Vdc)
+s_oo_Vdc=array((np.array(s_oo)).astype(np.float))-array((np.array(Vdc)).astype(np.float))
 
 ommesh=linspace(emin,emax,rom)
 Sig_tot=zeros((len(Sig),rom),dtype=complex)
@@ -94,8 +95,10 @@ for i in range(len(s_oo_Vdc)):
   header3+='%18.15f '%(s_oo_Vdc[i])
 header4='# s_oo= '+str(s_oo)
 header5='# Vdc= '+str(Vdc)
-Fileio.Print_complex_multilines(Sig_tot,ommesh,'sig.inp_real',[header1,header2,header3,header4,header5])
+Fileio.Print_complex_multilines(Sig_tot,ommesh,'./dos/sig.inp_real',[header1,header2,header3,header4,header5])
 
 #running dmft_dos.x
-cmd = para_com + "dmft_dos.x"
+cmd ="cd dos && "+ para_com + " dmft_dos.x"
 subprocess.Popen(cmd, shell=True).communicate()
+print("Post-processing complete")
+
