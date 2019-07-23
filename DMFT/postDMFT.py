@@ -41,37 +41,35 @@ if os.path.exists("dos"):
 else:	
 	os.makedirs("dos")
 
-#copying the last few self-energies from the DMFT run in the directory above	
-os.popen("cp -r ../sig.inp.0.* ./")
+#copying the last few self-energies from the DMFT run in the directory above
+os.popen("cp -r sig.inp.1.* ./dos/")
 
 #averaging sef energies
 print('Averaging self-energies...')
-cmd = "sigaver.py"
+cmd = "cd dos && sigaver.py sig.inp.*"
 out, err = subprocess.Popen(cmd, shell=True).communicate()
-if err!=0:
-  exit()
 print('Complete.\n')
 
 #copy maxent_params.dat from source
 src=path_bin+ os.sep+"maxent_params.dat"
-copyfile(src,"./")
+copyfile(src,"./dos/maxent_params.dat")
 
 #Analytic continuation
 print('Analytic Continuation...\n')
-cmd = "maxent_run.py sig.inpx"
+cmd = "cd dos && maxent_run.py sig.inpx"
 subprocess.Popen(cmd, shell=True).communicate()
 print('Complete.\n')
 
 #copying files from DMFT directory
-cmd = "Copy_input.py -dos ../"
+cmd = "cd dos && Copy_input.py ../ -dos"
 subprocess.Popen(cmd, shell=True).communicate()
 
 #interpolating points on real axis
 headerline=2
-om,Sig=Fileio.Read_complex_multilines('Sig.out',headerline)
+om,Sig=Fileio.Read_complex_multilines('./dos/Sig.out',headerline)
 s_oo = None
 Vdc = None
-fi=open('Sig.out','r')
+fi=open('./dos/Sig.out','r')
 for i in range(headerline):
   line=fi.readline()
   m=re.search('#(.*)',line)
@@ -98,7 +96,7 @@ header5='# Vdc= '+str(Vdc)
 Fileio.Print_complex_multilines(Sig_tot,ommesh,'./dos/sig.inp_real',[header1,header2,header3,header4,header5])
 
 #running dmft_dos.x
-cmd ="cd dos && "+ para_com + " dmft_dos.x"
+cmd ="cd dos && "+ para_com + "dmft_dos.x"
 subprocess.Popen(cmd, shell=True).communicate()
 print("Post-processing complete")
 
