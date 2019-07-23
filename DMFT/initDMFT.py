@@ -5,24 +5,11 @@ import shutil
 from shutil import copyfile
 import VASP
 import Struct
+from INPUT import *
 
-###############################inputs######################################################################
-#number of bands for DFT calculation
-NUM_BANDS = 72
 
 #vasp executable
 vasp_exec = "vasp_std"
-
-#dictionary of values for generating wannier90.win
-gen_win_dic = {
-	"atomnames": ['V','O'],       # The name of atoms"],
-	"orbs"     : ['d','p'],       # The name  of orbitals
-	"L_rot"     : [1,0],       # Whether rotate local axis or not
-	"ewin":      [-7,7],           # Energy Window
-    "cor_at":    [['V1']],      # Correlated atoms, put degenerate atoms in the same list
-    "cor_orb":   [[['d_z2','d_x2y2'],['d_xz','d_yz','d_xy']]], # DMFT orbitals, other orbitals are treated by HF"],
-}
-
 
 #mpirun
 if os.path.exists("para_com.dat"):
@@ -32,7 +19,6 @@ if os.path.exists("para_com.dat"):
 else:
     para_com=""
 
-###################################################################################
 
 print('\n#######################')
 print('# DMFTwDFT initialization #')
@@ -41,12 +27,12 @@ print('##########################\n')
 ############initialization############################################
 
 #generating wannier90.win
-TB=Struct.TBstructure('POSCAR',gen_win_dic['atomnames'],gen_win_dic['orbs'])
-TB.Compute_cor_idx(gen_win_dic['cor_at'],gen_win_dic['cor_orb'])
+TB=Struct.TBstructure('POSCAR',p['atomnames'],p['orbs'])
+TB.Compute_cor_idx(p['cor_at'],p['cor_orb'])
 print(TB.TB_orbs)
 DFT=VASP.VASP_class()
-DFT.NBANDS=NUM_BANDS
-DFT.Create_win(TB,gen_win_dic['atomnames'],gen_win_dic['orbs'],gen_win_dic['L_rot'],DFT.NBANDS,DFT.EFERMI+gen_win_dic['ewin'][0],DFT.EFERMI+gen_win_dic['ewin'][1])
+DFT.NBANDS=pV['NBANDS']
+DFT.Create_win(TB,p['atomnames'],p['orbs'],p['L_rot'],DFT.NBANDS,DFT.EFERMI+p['ewin'][0],DFT.EFERMI+p['ewin'][1])
 
 #initial DFT run
 print('Running initial DFT...')
