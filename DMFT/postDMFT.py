@@ -5,7 +5,7 @@ from scipy import *
 import copy, Fileio, re
 from scipy import interpolate
 import shutil
-from shutil import copyfile
+import glob
 from INPUT import *
 
 #######inputs######################################################################
@@ -15,6 +15,9 @@ emin=-7.0
 emax=3.0
 rom=3000 #omega points
 broaden=0.03
+
+#How many last self energies?
+siglistindx=2
 
 ###################################################################################
 
@@ -27,9 +30,10 @@ else:
     para_com=""
 
 
-print('\n###############################')
-print('# DMFT post-processing scheme #')
-print('###############################\n')
+print('\n')
+print('-------------------------------')
+print('| DMFT post-processing scheme |')
+print('-------------------------------\n')
 
 #dmft_bin
 path_bin=p['path_bin']
@@ -42,29 +46,54 @@ else:
 	os.makedirs("dos")
 
 #copying the last few self-energies from the DMFT run in the directory above
-os.popen("cp -r sig.inp.1.* ./dos/")
+siglist = sorted(glob.glob("sig.inp.*"))[-siglistindx:]
+for file in siglist:
+	shutil.copy(file,'./dos')
 
 #averaging sef energies
 print('Averaging self-energies...')
 cmd = "cd dos && sigaver.py sig.inp.*"
-out, err = subprocess.Popen(cmd, shell=True).communicate()
-print('Complete.\n')
+out, err = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+if err:
+  print(err)
+  print('Averaging self-energies Failed!\n')
+  sys.exit()
+else:
+  print('Self-energies averaged.\n')  
+  
 
 #copy maxent_params.dat from source
 src=path_bin+ os.sep+"maxent_params.dat"
-copyfile(src,"./dos/maxent_params.dat")
+shutil.copyfile(src,"./dos/maxent_params.dat")
 
 #Analytic continuation
-print('Analytic Continuation...\n')
+print('Analytic continuation...\n')
 cmd = "cd dos && maxent_run.py sig.inpx"
-subprocess.Popen(cmd, shell=True).communicate()
-print('Complete.\n')
+out, err = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+if err:
+  print('Analytic continuation failed! Check ac.error for details.\n')
+  f = open('ac.error','w')
+  f.write(err)
+  f.close()
+  sys.exit()
+else:
+  print('Analytic continuation complete.\n')  
+  f = open('ac.out','w')
+  f.write(out)
+  f.close()
 
 #copying files from DMFT directory
 cmd = "cd dos && Copy_input.py ../ -dos"
-subprocess.Popen(cmd, shell=True).communicate()
+out, err = subprocess.Popen(cmd, shell=True).communicate()
+if err:
+  print('File copy failed!\n')
+  print(err)
+  sys.exit()
+else:
+  print(out)
 
 #interpolating points on real axis
+print('Interpolating points on real axis...') 
 headerline=2
 om,Sig=Fileio.Read_complex_multilines('./dos/Sig.out',headerline)
 s_oo = None
@@ -94,10 +123,17 @@ for i in range(len(s_oo_Vdc)):
 header4='# s_oo= '+str(s_oo)
 header5='# Vdc= '+str(Vdc)
 Fileio.Print_complex_multilines(Sig_tot,ommesh,'./dos/sig.inp_real',[header1,header2,header3,header4,header5])
-print('Complete.\n')
+print('Interpolation complete.\n')
 
 #running dmft_dos.x
-cmd ="cd dos && "+ para_com + "dmft_dos.x"
-subprocess.Popen(cmd, shell=True).communicate()
-print("Post-processing complete")
+print("Calculating DMFT DOS...")
+cmd ="cd dos && "+para_com+" "+"dmft_dos.x"
+out, err = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+if err:
+  print(err)
+  print('DMFT DOS calculation failed!\n')
+  sys.exit()
+else:
+  print('DMFT DOS calculation complete.\n')  
+print("DMFT post-processing complete")
 
