@@ -89,7 +89,7 @@ else:
   print(out)
 
 #interpolating points on real axis
-print('Interpolating points on real axis...') 
+print('\nInterpolating points on real axis...') 
 headerline=2
 om,Sig=Fileio.Read_complex_multilines('./dos/Sig.out',headerline)
 s_oo = None
