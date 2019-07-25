@@ -51,9 +51,10 @@ for file in siglist:
 	shutil.copy(file,'./dos')
 
 #averaging sef energies
-print('Averaging self-energies...')
+print('Averaging self-energies from: ')
+print(siglist)
 cmd = "cd dos && sigaver.py sig.inp.*"
-out, err = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+out, err = subprocess.Popen(cmd, shell=True,stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
 if err:
   print(err)
   print('Averaging self-energies Failed!\n')
@@ -67,20 +68,15 @@ src=path_bin+ os.sep+"maxent_params.dat"
 shutil.copyfile(src,"./dos/maxent_params.dat")
 
 #Analytic continuation
-print('Analytic continuation...\n')
-cmd = "cd dos && maxent_run.py sig.inpx"
-out, err = subprocess.Popen(cmd, shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
-if err:
-  print('Analytic continuation failed! Check ac.error for details.\n')
-  f = open('ac.error','w')
-  f.write(err)
-  f.close()
-  sys.exit()
-else:
+print('Running analytic continuation...')
+cmd = "cd dos && maxent_run.py sig.inpx"+" > ac.out 2> ac.error"
+out, err = subprocess.Popen(cmd, shell=True,stdout = subprocess.PIPE, stderr = subprocess.PIPE).communicate()
+if os.path.exists("./dos/Sig.out"):
   print('Analytic continuation complete.\n')  
-  f = open('ac.out','w')
-  f.write(out)
-  f.close()
+else:
+  print('Analytic continuation failed! Check ac.error for details.\n') 
+  sys.exit()
+  
 
 #copying files from DMFT directory
 cmd = "cd dos && Copy_input.py ../ -dos"
