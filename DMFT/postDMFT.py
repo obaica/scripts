@@ -64,7 +64,9 @@ else:
   
 
 #copy maxent_params.dat from source if not in DMFT directory
-if !os.path.exists("maxent_params.dat"):
+if os.path.exists("maxent_params.dat"):
+  shutil.copyfile('maxent_params.dat','./dos/maxent_params.dat')
+else:
   src=path_bin+ os.sep+"maxent_params.dat"
   shutil.copyfile(src,"./dos/maxent_params.dat")
 
