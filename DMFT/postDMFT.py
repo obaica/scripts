@@ -17,7 +17,7 @@ rom=3000 #omega points
 broaden=0.03
 
 #How many last self energies?
-siglistindx=2
+siglistindx=5
 
 ###################################################################################
 
@@ -63,9 +63,10 @@ else:
   print('Self-energies averaged.\n')  
   
 
-#copy maxent_params.dat from source
-src=path_bin+ os.sep+"maxent_params.dat"
-shutil.copyfile(src,"./dos/maxent_params.dat")
+#copy maxent_params.dat from source if not in DMFT directory
+if !os.path.exists("maxent_params.dat"):
+  src=path_bin+ os.sep+"maxent_params.dat"
+  shutil.copyfile(src,"./dos/maxent_params.dat")
 
 #Analytic continuation
 print('Running analytic continuation...')
