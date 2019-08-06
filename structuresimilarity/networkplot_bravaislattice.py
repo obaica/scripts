@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+This network plot uses the 7 crystal systems as categories for the matched entries.
+"""
 
 import matplotlib.pyplot as plt
 import networkx as nx
