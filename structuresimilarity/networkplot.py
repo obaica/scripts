@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
-#This network plot is for all different spacegroups without categorizing them.
+"""
+This network plot is for all different spacegroups without categorizing them.
+"""
 
 import matplotlib.pyplot as plt
 import networkx as nx
