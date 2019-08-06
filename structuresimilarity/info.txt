@@ -1,7 +1,0 @@
-1. Run mp-data-acquisition.py to create the All.xls using the All.txt file. 
-
-2. Next run the structure similarity script. 
-
-3. Now run the network plotting scripts. 
-
-The .json file is used to keep the same structure of the network plot. 
