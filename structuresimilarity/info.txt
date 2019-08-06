@@ -3,3 +3,5 @@
 2. Next run the structure similarity script. 
 
 3. Now run the network plotting scripts. 
+
+The .json file is used to keep the same structure of the network plot. 
