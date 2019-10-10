@@ -12,12 +12,12 @@ def count_complete(args):
 	done_counter = 0
 
 	#pathlist = os.listdir(args.path) 
-	pathlist = sorted([d for d in os.listdir(args.path) if os.path.isdir(d)])
+	pathlist = sorted([int(d) for d in os.listdir(args.path) if os.path.isdir(d)])
 	print(pathlist)
 
 	for path in pathlist:
 
-		pathstr = path+os.sep+'DMFT'+os.sep+'INFO_TIME'
+		pathstr = str(path)+os.sep+'DMFT'+os.sep+'INFO_TIME'
 
 		if os.path.exists(pathstr):
 			fi=open(pathstr,'r')
