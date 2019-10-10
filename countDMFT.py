@@ -11,7 +11,8 @@ def count_complete(args):
 
 	done_counter = 0
 
-	pathlist= os.listdir(args.path) 
+	#pathlist = os.listdir(args.path) 
+	pathlist = sorted([d for d in os.listdir(args.path) if os.path.isdir(d)])
 	print(pathlist)
 
 	for path in pathlist:
