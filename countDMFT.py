@@ -26,6 +26,8 @@ def count_complete(args):
 
 			if done_word.split()[0] == 'Calculation':
 				done_counter += 1
+				print('Calculation complete at %s' %path)
+
 
 			else:
 				print('Calculation incomplete at %s' %path)
