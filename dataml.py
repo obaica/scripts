@@ -39,7 +39,6 @@ def store_data(args):
 				lastline = fi.readlines()[-1]
 				fi.close()
 
-				lastline_data = lastline.split()
 				etot1 =  lastline.split()[6]
 				etot2 = lastline.split()[7]
 
