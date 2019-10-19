@@ -18,6 +18,7 @@ def store_data(args):
 	#iterating over folders
 	pathlist = sorted([int(d) for d in os.listdir(args.path) if os.path.isdir(d)])
 	print(pathlist)		
+	dirname = os.getcwd().split('/')[-1]
 
 
 	for path in pathlist:
@@ -58,9 +59,10 @@ def store_data(args):
 						
 
 	#store in spreadsheet
-	if os.path.exists('mldata.xlsx'):
-		os.remove('mldata.xlsx')
-	df.to_excel("mldata.xlsx",index=False)
+	filestr = 'mldata_'+str(dirname)+'.xlsx'
+	if os.path.exists(filestr):
+		os.remove(filestr)
+	df.to_excel(filestr,index=False)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='This script stores the DMFT energies in a spreadsheet.')
