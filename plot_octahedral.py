@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import numpy as np
 import matplotlib.pyplot as plt
 import re
@@ -9,6 +9,10 @@ iterations=int(sys.argv[1])
 
 #name of system
 name=sys.argv[2]
+
+#timestep
+dt=float(sys.argv[3])
+
 
 ######################################
 
@@ -29,6 +33,7 @@ rp1_mod = np.zeros(iterations)
 rp2_mod = np.zeros(iterations)
 rp3_mod = np.zeros(iterations)
 
+time = np.zeros(iterations)
 
 for i in range(iterations):
     #open .out file
@@ -84,10 +89,13 @@ for i in range(iterations):
     #Octahedral angle is the angle between the vector of O9 and Fe1 and the b axis
     r_O9Fe1 = r17 - r1
     cos_gamma[i] = (np.dot(r_O9Fe1,b))/((np.linalg.norm(r_O9Fe1))*(np.linalg.norm(b))) #angle between O9Fe1 and b vectors
+
+    #time
+    time[i] += dt
     
 ####PLOTTING########
 plt.figure(1)
-plt.plot((i*0.01),cos_gamma)
+plt.plot(time, cos_gamma)
 plt.title('Octahedral tilting of Fe1-O9 with the b axis')
 plt.xlabel('Time (fs)')
 plt.ylabel('cosine')
