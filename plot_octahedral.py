@@ -12,7 +12,7 @@ name=sys.argv[2]
 
 #timestep
 dt=float(sys.argv[3])
-time = np.arange(0,iterations,dt)
+time = np.arange(0,iterations*dt,dt)
 ######################################
 
 #creating zero matrices
@@ -31,8 +31,6 @@ pressure=np.zeros(iterations)
 rp1_mod = np.zeros(iterations)
 rp2_mod = np.zeros(iterations)
 rp3_mod = np.zeros(iterations)
-
-time = np.zeros(iterations)
 
 for i in range(iterations):
     #open .out file
@@ -89,7 +87,6 @@ for i in range(iterations):
     r_O9Fe1 = r17 - r1
     cos_gamma[i] = (np.dot(r_O9Fe1,b))/((np.linalg.norm(r_O9Fe1))*(np.linalg.norm(b))) #angle between O9Fe1 and b vectors
 
-    
 ####PLOTTING########
 plt.figure(1)
 plt.plot(time, cos_gamma)
