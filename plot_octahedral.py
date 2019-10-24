@@ -12,8 +12,7 @@ name=sys.argv[2]
 
 #timestep
 dt=float(sys.argv[3])
-
-
+time = np.arange(0,iterations,dt)
 ######################################
 
 #creating zero matrices
@@ -90,15 +89,14 @@ for i in range(iterations):
     r_O9Fe1 = r17 - r1
     cos_gamma[i] = (np.dot(r_O9Fe1,b))/((np.linalg.norm(r_O9Fe1))*(np.linalg.norm(b))) #angle between O9Fe1 and b vectors
 
-    #time
-    time[i] += dt
     
 ####PLOTTING########
 plt.figure(1)
 plt.plot(time, cos_gamma)
-plt.title('Octahedral tilting of Fe1-O9 with the b axis')
+plt.title('Octahedral tilt angle')
 plt.xlabel('Time (fs)')
 plt.ylabel('cosine')
+#plt.xlim(0,0.05)
 plt.tight_layout()
 plt.savefig('octahedral_tilting.pdf')
-plt.show()    
+#plt.show()    
