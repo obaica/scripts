@@ -17,7 +17,7 @@ def count_complete(args):
 
 	for path in pathlist:
 
-		pathstr = str(path)+os.sep+'DMFT'+os.sep+'INFO_TIME'
+		pathstr = str(path)+os.sep+args.type+os.sep+'INFO_TIME'
 
 		if os.path.exists(pathstr):
 			fi=open(pathstr,'r')
@@ -42,6 +42,7 @@ def count_complete(args):
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='This script checks to see if the DMFT calculation is complete.')
 	parser.add_argument('path', type=str,default='./', help='Path to DMFT directory')
+	parser.add_argument('-type',type=str,default='dmft',help='DMFT or HF',choices=['DMFT','HF'])
 	args = parser.parse_args()
 	count_complete(args)
 
