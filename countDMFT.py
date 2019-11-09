@@ -78,7 +78,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='This script checks to see if the DMFT/HF calculation is complete.')
 	parser.add_argument('path', type=str,default='./', help='Path to DMFT/HF directory')
 	parser.add_argument('-type',type=str,default='dmft',help='DMFT or HF',choices=['dmft','hf'])
-	parser.add_argument('-post',type=str,default=None,help='Check for post-processing completeness.',choices=['ac','dos','plainbands','partialbands'],nargs='+',action='append')
+	parser.add_argument('-post',type=str,default=None,help='Check for post-processing completeness.',choices=['ac','dos','plainbands','partialbands'],nargs='+')
 	args = parser.parse_args()
 	count_complete(args)
 

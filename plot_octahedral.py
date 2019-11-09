@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 import re
 import sys
 
@@ -88,6 +89,13 @@ for i in range(iterations):
     cos_gamma[i] = (np.dot(r_O9Fe1,b))/((np.linalg.norm(r_O9Fe1))*(np.linalg.norm(b))) #angle between O9Fe1 and b vectors
 
 ####PLOTTING########
+
+font = {#'family' : 'normal',
+        #'weight' : 'bold',
+        'size'   : 15}
+
+matplotlib.rc('font', **font)
+
 plt.figure(1)
 plt.plot(time, cos_gamma)
 plt.title('Octahedral tilt angle')
