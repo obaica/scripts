@@ -12,7 +12,8 @@ def count_complete(args):
 	Parameters
 	----------
 	path : str
-		The Path to the DMFT/HF directory.
+		The Path to the DMFT/HF directory. 
+		Could be the root directory of many calculations as well.
 
 	type : str
 		The type of calculation. Either DMFT or HF.
